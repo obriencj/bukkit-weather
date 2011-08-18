@@ -1,5 +1,5 @@
 name: Weather
-main: net.preoccupied.bukkit.want.WeatherPlugin
+main: net.preoccupied.bukkit.weather.WeatherPlugin
 version: 0.1
 author: obriencj@gmail.com
 database: false
