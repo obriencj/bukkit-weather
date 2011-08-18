@@ -1,0 +1,6 @@
+
+This is a Bukkit plugin is intended to provide minimalistic weather
+control options on a per-world basis. It integrates with the built-in
+Bukkit permissions framework to allow users to override the weather
+and time for a world temporarily, and to use a Mjolnir-like item
+similar to the defunct MotherNature plugin.
