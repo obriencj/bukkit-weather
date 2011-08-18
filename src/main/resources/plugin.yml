@@ -1,0 +1,45 @@
+name: Weather
+main: net.preoccupied.bukkit.want.WeatherPlugin
+version: 0.1
+author: obriencj@gmail.com
+database: false
+description: Creates predictible weather patterns for various worlds
+
+
+commands:
+  weather:
+    description: Sets the time and/or weather conditions on the current world
+    usage: /weather KEYWORD [KEYWORD...]
+    permission: preoccupied.weather.cmd
+
+
+permission:
+  preoccupied.weather.admin:
+    description: Admin rights
+    default: op
+    children:
+      preoccupied.weather.cmd: true
+      preoccupied.weather.wand: true
+      preoccupied.weather.damage: true
+      
+  preoccupied.weather.advanced:
+    description: Advanced users
+    default: false
+    children:
+      preoccupied.weather.wand: true
+
+  preoccupied.weather.cmd:
+    description: Can use the /weather command
+    default: false
+
+  preoccupied.weather.wand:
+    description: Can use the lightning wand
+    default: false
+
+  preoccupied.weather.damage:
+    description: Can use the lightning wand to cause damage
+    default: false
+   
+
+    
+# The end.
