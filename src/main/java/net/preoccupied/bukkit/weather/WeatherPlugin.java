@@ -58,7 +58,7 @@ public class WeatherPlugin extends JavaPlugin {
 
 
     public void onDisable() {
-	;
+	worldSettings.clear();
     }
 
 
@@ -69,6 +69,8 @@ public class WeatherPlugin extends JavaPlugin {
 	if(getDataFolder().mkdirs())
 	    return;
 
+	/* load each file in the conf dir ending with .yml and load
+	   it, connected to a world with the same filename */
 	for(File f : getDataFolder().listFiles()) {
 	    String wn = f.getName();
 	    if(wn.endsWith(".yml")) {
@@ -135,6 +137,8 @@ public class WeatherPlugin extends JavaPlugin {
 		    if(w != null) {
 			w.setStorm(raining);
 
+			/* If we're raining, schedule the stop, and
+			   vice-verse */
 			int changeticks = 0;
 			if(raining) {
 			    changeticks = setting.getRainDurationTicks();
@@ -167,6 +171,8 @@ public class WeatherPlugin extends JavaPlugin {
 		    if(w != null) {
 			w.setThundering(thundering);
 
+			/* If we're thundering, schedule the stop, and
+			   vice-verse */
 			int changeticks = 0;
 			if(thundering) {
 			    changeticks = setting.getThunderDurationTicks();
