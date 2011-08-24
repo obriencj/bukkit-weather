@@ -4,3 +4,85 @@ control options on a per-world basis. It integrates with the built-in
 Bukkit permissions framework to allow users to override the weather
 and time for a world temporarily, and to use a Mjolnir-like item
 similar to the defunct MotherNature plugin.
+
+
+=== Configuration ===
+
+To configure weather for a world, create a configuration for it in the
+plugins/Weather directory. For example, the world named "mainworld"
+would have the file plugins/Weather/mainworld.yml
+
+The configuration file follows this format:
+
+rain:
+  schedule: 120
+  schedulefudge: 0
+  duration: 30
+  durationfudge: 0
+
+thunder:
+  schedule: 240
+  schedulefudge: 0
+  duration: 30
+  durationfudge: 0
+
+The "schedule" value is the number of seconds that the rain/thunder
+should begin. This timer begins counting when the plugin loads, and
+again whenever the next scheduled rain/thunder event ends.
+
+The "schedulefudge" value is a way to add a random element to the
+amount of time between weather events. A random number of seconds
+between 0 and schedulefudge will be added to each schedule
+timer. Thus, with a schedule of 120 and a schedulefudge of 0, it will
+always rain 120 seconds after the last scheduled rain ended. But with
+a schedule of 120 and a schedulefudge of 60, it will rain between 120
+and 180 seconds after the last scheduled rain ended.
+
+The "duration" value is how long the rain/thunder should last. Once
+the duration has passed, the schedule timer will begin ticking again.
+
+The "durationfudge" value works similarly to "schedulefudge". A random
+number of seconds between 0 and durationfudge will be added to the
+duration each time it begins to rain/thunder.
+
+If the configuration file exists but is empty, all values are
+considered to be 0, in which case the weather will be set to clear and
+no scheduled changes will occur.
+
+
+=== Commands ===
+
+This plugin defines a single command, /weather which requires the
+permission preoccupied.weather.cmd
+
+/weather KEYWORD [KEYWORD ...]
+
+KEYWORD can be any of the following: clear, rain, rainy, raining,
+thunder, thundering, lightning, storm, stormy, storming, morning, day,
+night, noon, midnight, sunrise, sunset.
+
+Using the /weather command, a user may force the time of day and the
+weather to change. Thus
+
+/weather stormy morning
+will set the time to morning and will cause it to rain
+
+/weather clear midnight
+will set the time to midnight and clear all weather
+
+/weather thundering raining sunset
+will cause it to be raining and thundering, and will set the time to
+sunset
+
+
+
+=== Wand ===
+
+The plugin will permit owners of gold boots (item 317) to right click
+objects in the distance to spawn lightning. This requires the
+permission preoccupied.weather.wand
+
+The lightning will do no damage unless the user also has the
+permission preoccupied.weather.damage
+
+TODO: enable overriding of the item type.

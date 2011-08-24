@@ -13,7 +13,7 @@ commands:
     permission: preoccupied.weather.cmd
 
 
-permission:
+permissions:
   preoccupied.weather.admin:
     description: Admin rights
     default: op

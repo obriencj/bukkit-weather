@@ -23,6 +23,7 @@ import org.bukkit.util.config.Configuration;
 import net.preoccupied.bukkit.permissions.PermissionCommand;
 
 
+
 /**
    A very simple weather plugin for Bukkit
 
@@ -36,8 +37,6 @@ public class WeatherPlugin extends JavaPlugin {
 
 
     public void onEnable() {
-	System.out.println("Weather.onEnable()");
-
 	loadWorlds();
 
 	PluginManager pm = getServer().getPluginManager();
@@ -53,6 +52,8 @@ public class WeatherPlugin extends JavaPlugin {
 	setupCommands();
 
 	delayBegin();
+
+	getServer().getLogger().info(this + " is enabled.");
     }
 
 
@@ -83,6 +84,7 @@ public class WeatherPlugin extends JavaPlugin {
 		setting.load(conf);
 
 		worldSettings.put(wn, setting);
+		getServer().getLogger().info("loaded weather settings for world " + wn);
 	    }
 	}
     }
@@ -91,7 +93,8 @@ public class WeatherPlugin extends JavaPlugin {
 
     private void delayBegin() {
 	/* Simple trick to make all of this happen long after all
-	   other plugins have finished their business. */
+	   other plugins have finished their business (such as loading
+	   additional Worlds) */
 
 	Runnable task = new Runnable() {
 		public void run() {
@@ -216,6 +219,7 @@ public class WeatherPlugin extends JavaPlugin {
 	    STORM, STORMY, STORMING,
 	    RAIN, RAINY, RAINING,
 	    THUNDER, THUNDERING, LIGHTNING,
+	    THUNDERSTORM,
 	    DAWN, SUNRISE, MORNING,
 	    DAY, NOON,
 	    AFTERNOON, SUNSET,
@@ -229,6 +233,9 @@ public class WeatherPlugin extends JavaPlugin {
 	new PermissionCommand(this, "weather") {
 	    public boolean run(Player p, String[] args) {
 		World w = p.getWorld();
+
+		// if no arguments, print help
+		if(args.length == 0) return false;
 
 		for(String a : args) {
 		    try {
@@ -252,6 +259,11 @@ public class WeatherPlugin extends JavaPlugin {
 			case THUNDER:
 			case THUNDERING:
 			case LIGHTNING:
+			    w.setThundering(true);
+			    break;
+
+			case THUNDERSTORM:
+			    w.setStorm(true);
 			    w.setThundering(true);
 			    break;
 
