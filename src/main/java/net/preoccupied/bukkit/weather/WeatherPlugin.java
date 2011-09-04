@@ -47,7 +47,7 @@ public class WeatherPlugin extends JavaPlugin {
 
 
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private void debug(Object... args) {
 	if(this.DEBUG) log(args);
@@ -104,7 +104,7 @@ public class WeatherPlugin extends JavaPlugin {
 		setting.load(conf);
 
 		worldSettings.put(wn, setting);
-		log("loaded weather settings for \"", wn, "\"");
+		log("loaded weather settings for", wn);
 	    }
 	}
     }
@@ -159,7 +159,7 @@ public class WeatherPlugin extends JavaPlugin {
 		public void run() {
 		    World w = getServer().getWorld(setting.getWorld());
 		    if(w != null) {
-			debug("raining set to", raining, "on \"", setting.getWorld(), "\"");
+			debug("raining set to", raining, "on", setting.getWorld());
 			w.setStorm(raining);
 
 			/* If we're raining, schedule the stop, and
@@ -177,8 +177,7 @@ public class WeatherPlugin extends JavaPlugin {
 	    };
 
 	getServer().getScheduler().scheduleSyncDelayedTask(this, task, ticks);
-	debug("rain will be set to", raining, "in", ticks, "ticks on \"",
-	      setting.getWorld(), "\"");
+	debug("rain will be set to", raining, "in", ticks, "ticks on", setting.getWorld());
     }
 
 
@@ -196,7 +195,7 @@ public class WeatherPlugin extends JavaPlugin {
 		public void run() {
 		    World w = getServer().getWorld(setting.getWorld());
 		    if(w != null) {
-			debug("thundering set to", thundering, "on \"", setting.getWorld(), "\"");
+			debug("thundering set to", thundering, "on", setting.getWorld());
 			w.setThundering(thundering);
 
 			/* If we're thundering, schedule the stop, and
@@ -214,8 +213,7 @@ public class WeatherPlugin extends JavaPlugin {
 	    };
 
 	getServer().getScheduler().scheduleSyncDelayedTask(this, task, ticks);
-	debug("thunder will be set to", thundering, "in", ticks,
-	      "ticks on \"", setting.getWorld(), "\"");
+	debug("thunder will be set to", thundering, "in", ticks, "ticks on", setting.getWorld());
     }
 
 
@@ -264,9 +262,13 @@ public class WeatherPlugin extends JavaPlugin {
 		// if no arguments, print help
 		if(args.length == 0) return false;
 
+		StringBuilder sb = new StringBuilder();
+
 		for(String a : args) {
 		    try {
 			a = a.toUpperCase();
+			sb.append(a);
+			sb.append(" ");
 
 			switch(WeatherKeyword.valueOf(a)) {
 			case CLEAR:
@@ -321,12 +323,14 @@ public class WeatherPlugin extends JavaPlugin {
 		    }
 		}
 
+		log(p.getName(), "sets weather on", w.getName(), "to",
+		    sb.toString());
+
 		return true;
 	    }
 	};
 
     }
-
 
 
 }
