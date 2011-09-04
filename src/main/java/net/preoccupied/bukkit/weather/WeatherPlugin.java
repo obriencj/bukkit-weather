@@ -36,6 +36,25 @@ public class WeatherPlugin extends JavaPlugin {
 
 
 
+    private void log(Object... args) {
+	StringBuilder sb = new StringBuilder();
+	for(Object a : args) {
+	    sb.append((a == null)? "[null]": a.toString());
+	    sb.append(" ");
+	}
+	getServer().getLogger().info(sb.toString());
+    }
+
+
+
+    private static final boolean DEBUG = true;
+
+    private void debug(Object... args) {
+	if(this.DEBUG) log(args);
+    }
+
+
+
     public void onEnable() {
 	loadWorlds();
 
@@ -53,13 +72,14 @@ public class WeatherPlugin extends JavaPlugin {
 
 	delayBegin();
 
-	getServer().getLogger().info(this + " is enabled.");
+	log(this, "is enabled");
     }
 
 
 
     public void onDisable() {
 	worldSettings.clear();
+	log(this, "is disabled");
     }
 
 
@@ -84,7 +104,7 @@ public class WeatherPlugin extends JavaPlugin {
 		setting.load(conf);
 
 		worldSettings.put(wn, setting);
-		getServer().getLogger().info("loaded weather settings for world " + wn);
+		log("loaded weather settings for \"", wn, "\"");
 	    }
 	}
     }
@@ -121,6 +141,7 @@ public class WeatherPlugin extends JavaPlugin {
 		scheduleThunder(setting);
 	    }
 	}
+	debug("weather is now controlled");
     }
 
 
@@ -138,6 +159,7 @@ public class WeatherPlugin extends JavaPlugin {
 		public void run() {
 		    World w = getServer().getWorld(setting.getWorld());
 		    if(w != null) {
+			debug("raining set to", raining, "on \"", setting.getWorld(), "\"");
 			w.setStorm(raining);
 
 			/* If we're raining, schedule the stop, and
@@ -155,6 +177,8 @@ public class WeatherPlugin extends JavaPlugin {
 	    };
 
 	getServer().getScheduler().scheduleSyncDelayedTask(this, task, ticks);
+	debug("rain will be set to", raining, "in", ticks, "ticks on \"",
+	      setting.getWorld(), "\"");
     }
 
 
@@ -172,6 +196,7 @@ public class WeatherPlugin extends JavaPlugin {
 		public void run() {
 		    World w = getServer().getWorld(setting.getWorld());
 		    if(w != null) {
+			debug("thundering set to", thundering, "on \"", setting.getWorld(), "\"");
 			w.setThundering(thundering);
 
 			/* If we're thundering, schedule the stop, and
@@ -189,6 +214,8 @@ public class WeatherPlugin extends JavaPlugin {
 	    };
 
 	getServer().getScheduler().scheduleSyncDelayedTask(this, task, ticks);
+	debug("thunder will be set to", thundering, "in", ticks,
+	      "ticks on \"", setting.getWorld(), "\"");
     }
 
 
