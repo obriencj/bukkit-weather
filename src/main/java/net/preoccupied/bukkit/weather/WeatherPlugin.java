@@ -20,7 +20,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
-import net.preoccupied.bukkit.permissions.PermissionCommand;
+import net.preoccupied.bukkit.PlayerCommand;
 
 
 
@@ -255,7 +255,7 @@ public class WeatherPlugin extends JavaPlugin {
 
     private void setupCommands() {
 
-	new PermissionCommand(this, "weather") {
+	new PlayerCommand(this, "weather") {
 	    public boolean run(Player p, String[] args) {
 		World w = p.getWorld();
 

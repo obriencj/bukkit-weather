@@ -26,6 +26,7 @@ permissions:
     description: Advanced users
     default: false
     children:
+      preoccupied.weather.cmd: true
       preoccupied.weather.wand: true
 
   preoccupied.weather.cmd:
