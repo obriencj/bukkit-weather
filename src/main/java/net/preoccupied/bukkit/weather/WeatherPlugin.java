@@ -40,7 +40,7 @@ public class WeatherPlugin extends JavaPlugin {
 	StringBuilder sb = new StringBuilder();
 	for(Object a : args) {
 	    sb.append((a == null)? "[null]": a.toString());
-	    sb.append(" ");
+	    sb.append(' ');
 	}
 	getServer().getLogger().info(sb.toString());
     }
@@ -298,8 +298,11 @@ public class WeatherPlugin extends JavaPlugin {
 
 			case DAWN:
 			case SUNRISE:
-			case MORNING:
 			    w.setTime(23000);
+			    break;
+
+			case MORNING:
+			    w.setTime(0);
 			    break;
 
 			case DAY:
